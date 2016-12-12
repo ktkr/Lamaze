@@ -1,0 +1,23 @@
+module boolean (
+    input a[8],
+    input b[8],
+    input alufn[4],
+    output boole[8]
+  ) {
+  
+  
+  
+  always {
+  
+    //Use alufn input to determine operation
+    case(alufn){
+      4b1000: boole = a&b; //AND
+      4b1110: boole = a|b; //OR
+      4b0110: boole = a^b; //XOR
+      4b1010: boole = a;   //'A'
+      4b0101: boole = b;   //'B'
+      default: boole = 0;  //All other cases default 0
+      }
+
+  }
+}

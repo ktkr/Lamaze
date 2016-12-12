@@ -1,0 +1,64 @@
+module tester (
+    input i,
+    input clk,
+    input rst,
+    
+    output a[8],
+    output b[8],
+    output alufn[5],
+    output testcase[4]
+  ) {
+  
+  dff accum[6](.clk(clk), .rst(rst));
+
+  always {
+    accum.d = accum.q + i;
+    
+    testcase = accum.q[5-:4];
+    
+    case(accum.q[5-:4]) {
+      0: //show two's complement addition; result is 1
+        a = $signed(-14);
+        b = 15;
+        alufn = 5x{0};  
+      
+      1: //add two positive numbers; overflow to negative
+        a = 8b01111111;
+        b = 8b00000001;
+        alufn = 5x{0};
+        
+      2: //add two negative numbers; overflow to positive
+        a = 8b10000000;
+        b = 8b11111111;
+        alufn = 6b000001;
+        
+      3: //Right shift with sign extension of a by 2 bits
+        a = 8b10000001;
+        b = 8b00000010;
+        alufn = 6b100011;
+        
+      4: //Non-signed multiplication; 16 = 8b00010000
+        a = 8b00000100;
+        b = 8b00000100;
+        alufn = 6b000010;
+        
+      5: //Compare if less than -1 to 1; true
+        a = $signed(-1);
+        b = 1;
+        alufn = 6b110101;
+        
+      6: //All possible boolean combinations for AND
+        a = 8b00001100;
+        b = 8b00001010;
+        alufn = 6b011000;
+        
+      
+      default:
+        a = 8x{0};
+        b = 8x{0};
+        alufn = 5x{0};
+        accum.d = 0;
+        
+    }
+  }
+}

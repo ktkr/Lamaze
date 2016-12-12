@@ -1,0 +1,25 @@
+module beam_tracker (
+    input ldr[9],
+    output beam_position[4]
+  ) {
+  
+  sig pos[4];
+  
+  always {
+    pos = 15; // invalid!
+    
+    case (ldr) {
+      9b000000001: pos = 0;
+      9b000000010: pos = 1;
+      9b000000100: pos = 2;
+      9b000001000: pos = 4;
+      9b000010000: pos = 5;
+      9b000100000: pos = 7;
+      9b001000000: pos = 8;
+      9b010000000: pos = 9;
+      9b100000000: pos = 10;
+    }
+    
+    beam_position = pos;
+  }
+}

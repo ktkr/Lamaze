@@ -1,0 +1,136 @@
+NET "io_led[0]" LOC = P97;
+NET "io_led[0]" IOSTANDARD = LVTTL;
+NET "io_led[1]" LOC = P98;
+NET "io_led[1]" IOSTANDARD = LVTTL;
+NET "io_led[2]" LOC = P94;
+NET "io_led[2]" IOSTANDARD = LVTTL;
+NET "io_led[3]" LOC = P95;
+NET "io_led[3]" IOSTANDARD = LVTTL;
+NET "io_led[4]" LOC = P92;
+NET "io_led[4]" IOSTANDARD = LVTTL;
+NET "io_led[5]" LOC = P93;
+NET "io_led[5]" IOSTANDARD = LVTTL;
+NET "io_led[6]" LOC = P87;
+NET "io_led[6]" IOSTANDARD = LVTTL;
+NET "io_led[7]" LOC = P88;
+NET "io_led[7]" IOSTANDARD = LVTTL;
+
+NET "io_led[8]" LOC = P84;
+NET "io_led[8]" IOSTANDARD = LVTTL;
+NET "io_led[9]" LOC = P85;
+NET "io_led[9]" IOSTANDARD = LVTTL;
+NET "io_led[10]" LOC = P82;
+NET "io_led[10]" IOSTANDARD = LVTTL;
+NET "io_led[11]" LOC = P83;
+NET "io_led[11]" IOSTANDARD = LVTTL;
+NET "io_led[12]" LOC = P80;
+NET "io_led[12]" IOSTANDARD = LVTTL;
+NET "io_led[13]" LOC = P81;
+NET "io_led[13]" IOSTANDARD = LVTTL;
+NET "io_led[14]" LOC = P11;
+NET "io_led[14]" IOSTANDARD = LVTTL;
+NET "io_led[15]" LOC = P14;
+NET "io_led[15]" IOSTANDARD = LVTTL;
+
+NET "io_led[16]" LOC = P15;
+NET "io_led[16]" IOSTANDARD = LVTTL;
+NET "io_led[17]" LOC = P16;
+NET "io_led[17]" IOSTANDARD = LVTTL;
+NET "io_led[18]" LOC = P17;
+NET "io_led[18]" IOSTANDARD = LVTTL;
+NET "io_led[19]" LOC = P21;
+NET "io_led[19]" IOSTANDARD = LVTTL;
+NET "io_led[20]" LOC = P22;
+NET "io_led[20]" IOSTANDARD = LVTTL;
+NET "io_led[21]" LOC = P23;
+NET "io_led[21]" IOSTANDARD = LVTTL;
+NET "io_led[22]" LOC = P24;
+NET "io_led[22]" IOSTANDARD = LVTTL;
+NET "io_led[23]" LOC = P26;
+NET "io_led[23]" IOSTANDARD = LVTTL;
+
+NET "io_seg[0]" LOC = P5;
+NET "io_seg[0]" IOSTANDARD = LVTTL;
+NET "io_seg[1]" LOC = P8;
+NET "io_seg[1]" IOSTANDARD = LVTTL;
+NET "io_seg[2]" LOC = P144;
+NET "io_seg[2]" IOSTANDARD = LVTTL;
+NET "io_seg[3]" LOC = P143;
+NET "io_seg[3]" IOSTANDARD = LVTTL;
+NET "io_seg[4]" LOC = P2;
+NET "io_seg[4]" IOSTANDARD = LVTTL;
+NET "io_seg[5]" LOC = P6;
+NET "io_seg[5]" IOSTANDARD = LVTTL;
+NET "io_seg[6]" LOC = P1;
+NET "io_seg[6]" IOSTANDARD = LVTTL;
+NET "io_seg[7]" LOC = P141;
+NET "io_seg[7]" IOSTANDARD = LVTTL;
+
+NET "io_sel[0]" LOC = P9;
+NET "io_sel[0]" IOSTANDARD = LVTTL;
+NET "io_sel[1]" LOC = P10;
+NET "io_sel[1]" IOSTANDARD = LVTTL;
+NET "io_sel[2]" LOC = P7;
+NET "io_sel[2]" IOSTANDARD = LVTTL;
+NET "io_sel[3]" LOC = P12;
+NET "io_sel[3]" IOSTANDARD = LVTTL;
+
+
+
+NET "ldr_vol[0]" LOC = P51;
+NET "ldr_vol[0]" IOSTANDARD = LVTTL;
+NET "ldr_vol[1]" LOC = P41;
+NET "ldr_vol[1]" IOSTANDARD = LVTTL;
+NET "ldr_vol[2]" LOC = P35;
+NET "ldr_vol[2]" IOSTANDARD = LVTTL;
+NET "ldr_vol[3]" LOC = P33;
+NET "ldr_vol[3]" IOSTANDARD = LVTTL;
+NET "ldr_vol[4]" LOC = P30;
+NET "ldr_vol[4]" IOSTANDARD = LVTTL;
+NET "ldr_vol[5]" LOC = P134;
+NET "ldr_vol[5]" IOSTANDARD = LVTTL;
+NET "ldr_vol[6]" LOC = P132;
+NET "ldr_vol[6]" IOSTANDARD = LVTTL;
+NET "ldr_vol[7]" LOC = P127;
+NET "ldr_vol[7]" IOSTANDARD = LVTTL;
+NET "ldr_vol[8]" LOC = P124;
+NET "ldr_vol[8]" IOSTANDARD = LVTTL;
+
+NET "ldr_input[0]" LOC = P50;
+NET "ldr_input[0]" IOSTANDARD = LVTTL;
+NET "ldr_input[0]" PULLDOWN;
+NET "ldr_input[1]" LOC = P40;
+NET "ldr_input[1]" IOSTANDARD = LVTTL;
+NET "ldr_input[1]" PULLDOWN;
+NET "ldr_input[2]" LOC = P34;
+NET "ldr_input[2]" IOSTANDARD = LVTTL;
+NET "ldr_input[2]" PULLDOWN;
+NET "ldr_input[3]" LOC = P32;
+NET "ldr_input[3]" IOSTANDARD = LVTTL;
+NET "ldr_input[3]" PULLDOWN;
+NET "ldr_input[4]" LOC = P29;
+NET "ldr_input[4]" IOSTANDARD = LVTTL;
+NET "ldr_input[4]" PULLDOWN;
+NET "ldr_input[5]" LOC = P133;
+NET "ldr_input[5]" IOSTANDARD = LVTTL;
+NET "ldr_input[5]" PULLDOWN;
+NET "ldr_input[6]" LOC = P131;
+NET "ldr_input[6]" IOSTANDARD = LVTTL;
+NET "ldr_input[6]" PULLDOWN;
+NET "ldr_input[7]" LOC = P126;
+NET "ldr_input[7]" IOSTANDARD = LVTTL;
+NET "ldr_input[7]" PULLDOWN;
+NET "ldr_input[8]" LOC = P123;
+NET "ldr_input[8]" IOSTANDARD = LVTTL;
+NET "ldr_input[8]" PULLDOWN;
+
+NET "p_led[0]" LOC = P100;
+NET "p_led[0]" IOSTANDARD = LVTTL;
+NET "p_led[1]" LOC = P99;
+NET "p_led[1]" IOSTANDARD = LVTTL;
+
+
+
+NET "button" LOC = P58;
+NET "button" IOSTANDARD = LVTTL;
+NET "button" PULLUP;

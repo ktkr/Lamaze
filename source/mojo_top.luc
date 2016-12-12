@@ -1,0 +1,71 @@
+module mojo_top (
+    input clk,              // 50MHz clock
+    input rst_n,            // reset button (active low) 
+    input button,
+    output ldr_vol[9],
+    input ldr_input[9],
+    
+    output p_led[2],
+    
+    // io_leds are used to display how many turns are left for each player
+    output io_led[3][8],
+    
+    // io_segs are used to display score for each player
+    output io_seg[8],
+    output io_sel[4]
+  ) {
+  
+  beam_tracker beam_tracker;
+  
+  bin_to_dec bin_to_dec(.clk(clk), #DIGITS(4));
+  
+  
+ sig rst;                  // reset signal
+ sig in;
+
+  .clk(clk) {
+    // The reset conditioner is used to synchronize the reset signal to the FPGA
+    // clock. This ensures the entire FPGA comes out of reset at the same time.
+    reset_conditioner reset_cond;
+     
+    .rst(rst) {
+      game game;
+      multi_seven_seg multi_seven_seg;
+      //counter counter;
+    }
+  }
+  
+  always {
+  
+    in = button;
+    reset_cond.in = ~rst_n; // input raw inverted reset signal
+    rst = reset_cond.out;   // conditioned reset
+    
+    beam_tracker.ldr = ldr_input; // voltageIn;
+    
+    // bound to turn button
+    game.on_turn = ~button;
+    
+    // accepts beam_position from another module
+    game.beam_position = beam_tracker.beam_position;
+    
+    // display to show how many turns remain
+    
+    io_led[0] = 8b01111111 >> game.p1_turn;
+    io_led[1] = ldr_input[8:1];
+    io_led[0][7] = ldr_input[0];
+    io_led[2] = 8b01111111 >> game.p2_turn;
+    
+    bin_to_dec.value = game.score_out;
+    multi_seven_seg.values = bin_to_dec.digits;
+    
+    io_seg = ~multi_seven_seg.seg;
+    io_sel = ~multi_seven_seg.sel;
+    
+    p_led[0] = game.turn_player_out;
+    p_led[1] = ~game.turn_player_out;
+    
+    ldr_vol = 9b111111111;
+    
+  }
+}

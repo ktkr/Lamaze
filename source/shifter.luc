@@ -1,0 +1,17 @@
+module shifter (
+    input a[8],
+    input b[3],
+    input alufn[2],
+    
+    output result[8]
+  ) {
+
+  always {
+    case (alufn) {
+      2b00: result = a << b;            //Left Shift
+      2b01: result = a >> b;            //Right Shift
+      2b11: result = $signed(a) >>> b;  //Right Shift with sign extension
+      default: result = 0;              //Set all other cases to 0
+    }
+  }
+}

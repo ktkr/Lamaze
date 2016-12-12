@@ -1,0 +1,24 @@
+module compare (
+    output compareout,
+    input z,
+    input v,
+    input n,
+    input alufn[2]     
+  ) {
+
+  always {
+  
+    case(alufn){
+      //if ALUFN[1] is true (A=Z)
+      2b01:compareout = (z);
+      
+      //if ALUFN[2] is true (A<B)  
+      2b10:compareout =(n^v);
+      
+      //if ALUFN[1] and ALUFN[2] are true
+      2b11:compareout = (z|(n^v));
+      
+      default: compareout = 0;
+    }
+  }
+}

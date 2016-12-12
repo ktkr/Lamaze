@@ -1,0 +1,36 @@
+module adder (
+    input a[8],       // first 8-bit input
+    input b[8],       // second 8-bit input
+    input alufn,      // addition if 0, subtraction if 1
+    
+    output result[8], // 8 bit result for addition
+    output z,         // z = 1 if result == 0 else 0
+    output v,         // v = 1 if overflow else 0; overflow if a[7] == 0 & b[7] == 0 & result[7] == 1 | a[7] == 1 & b[7] == 1 & result[7] == 0
+    output n          // n = 1 if result[7] == 1 else 0
+  ) {
+  
+  sig operand[9]; // use a 9 bit number to prevent overflow
+
+  always {
+    /*
+    alufn = 0: add 
+    alufn = 1: subtract
+    */
+    
+    if (alufn == 0) {
+      operand = a + b;
+    } else {
+      operand = a - b;
+    }
+    
+    z = (operand[7:0] == 0);
+    v = ((a[7] == 0) & (alufn^b[7] == 0) & (operand[7] == 1)) | ((a[7] == 1) & (alufn^b[7] == 1) & (operand[7] == 0));
+    n = operand[7];
+    
+    //Return only lowest 8 bits
+    result = operand[7:0];
+  }
+}
+
+
+

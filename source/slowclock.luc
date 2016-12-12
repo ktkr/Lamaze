@@ -1,0 +1,18 @@
+module slowclock (
+    input clk,  // clock
+    input rst,  // reset
+    
+    output out
+  ) {
+  
+  dff counter[24](.clk(clk), .rst(rst));
+
+  always {
+    counter.d = counter.q + 1;
+    
+    if (counter.q[23] == 1) {
+      counter.d[23] = 0;
+    }
+    out = counter.q[23];
+  }
+}

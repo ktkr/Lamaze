@@ -1,0 +1,109 @@
+module game (
+    input clk,
+    input rst,
+    
+    // position of the beam
+    input beam_position[4],
+    // whether the turn button was pressed
+    // 1 if pressed
+    // 0 otherwise
+    input on_turn,
+    
+    output turn_player_out,
+    output score_out[8],
+    
+    output p1_turn[3],
+    output p2_turn[3]
+  ) {
+  
+   edge_detector edge_detector(.clk(clk), #RISE(1), #FALL(0));
+   button_conditioner button_conditioner(.clk(clk));
+   alu alu;
+  
+  .clk(clk), .rst(rst) {
+    // turn_player = 0 is player1's turn
+    // turn_player = 1 is player2's turn
+    dff turn_player;
+    
+    // score[0] = player1 score
+    // score[1] = player2 score
+    dff score[2][8];
+    
+    // 7 turns per player
+    // init is 0
+    // we add 1 every turn
+    dff turns_passed[2][3];
+  }
+
+  always {
+    button_conditioner.in = on_turn;
+    edge_detector.in = button_conditioner.out;
+    
+    alu.a = 0;
+    alu.b = 0;
+    alu.alufn = 0;
+    
+    if (turns_passed.q[0] == 7 & turns_passed.q[1] == 7) {
+      // end game condition!
+      
+      alu.a = score.q[0];
+      alu.b = score.q[1];
+      alu.alufn = 6b110101;
+      
+      turn_player.d = alu.result[0];
+      
+    } else if (edge_detector.out == 1) {
+      
+      // by default no change so +0
+      alu.a = score.q[turn_player.q];
+      alu.b = 0;
+      alu.alufn = 6b000000;
+      
+      case (beam_position) {
+        0: // multiply by 2 by shifting 1
+          alu.b = 1;
+          alu.alufn = 6b100000;
+        1: // add 4
+          alu.b = 4;
+          alu.alufn = 6b000000;
+        2: // add 4
+          alu.b = 4;
+          alu.alufn = 6b000000;
+        4: // most accessible, so addition by 1
+          alu.b = 1;
+          alu.alufn = 6b000000;
+        5: // most accessible, so addition by 1
+          alu.b = 1;
+          alu.alufn = 6b000000;
+        7: // add 2
+          alu.b = 2;
+          alu.alufn = 6b000000;
+        8: // add 2
+          alu.b = 2;
+          alu.alufn = 6b000000;
+        9: // add 2
+          alu.b = 2;
+          alu.alufn = 6b000000;
+        10: // highest addition, add 8
+          alu.b = 8;
+          alu.alufn = 6b000000;
+      }
+      
+      score.d[turn_player.q] = alu.result;
+        
+      // use a single turn
+      turns_passed.d[turn_player.q] = turns_passed.q[turn_player.q] + 1;
+      
+      // switch to the other player's turn
+      turn_player.d = ~turn_player.q;
+      
+    }
+    
+    turn_player_out = turn_player.q;
+    
+    score_out = score.q[turn_player.q];
+    
+    p1_turn = turns_passed.q[0];
+    p2_turn = turns_passed.q[1];
+  }
+}

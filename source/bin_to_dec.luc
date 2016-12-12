@@ -1,0 +1,55 @@
+/* 
+    Binary to Decimal: This module takes a binary number and splits it into 
+    base 10 decimal digits. The maximum number of digits is specified by the 
+    parameter DIGITS. 
+     
+    The double dabble algorithm (https://en.wikipedia.org/wiki/Double_dabble) 
+    requires shifting, so it takes a few clock cycles for the result to appear 
+    after the input value changes (automatically detected). 
+     
+    The digits will be 0xF during the conversion; since it is fast enough, most 
+    of the time (e.g. display purposes) it can be ignored. 
+*/ 
+
+module bin_to_dec #( 
+     DIGITS = 1 : DIGITS > 0 
+   )( 
+     input clk,                                  // clock 
+     input value [$clog2($pow(10, DIGITS))],     // minimum number of bits for DIGITS  
+     output digits [DIGITS][4]                   // decimal output 
+   ) { 
+    
+   const IW = value.WIDTH; 
+   const SC = DIGITS*4 + IW;                     // scratch space size 
+   
+   .clk(clk) { 
+     dff s [SC];                                 // scratch space storage 
+     edge_detector n [IW];                       // input change detector 
+     dff c [$clog2(IW)] (.rst(|n.out));          // step counter 
+   } 
+    
+   sig space [SC], d [4];                        // scratch space & digit place 
+   var i, idx; 
+    
+   always { 
+     n.in = value; 
+     digits = DIGITSx{{4hf}};                    // 0xf by default 
+      
+     if ( c.q == IW + 1 ) {                      // done 
+       for (i = 0; i < DIGITS; i++) { 
+         digits[DIGITS-1-i] = s.q[SC-1-i*4-:4];  // load scratch space into digits 
+       } 
+     } else if ( c.q == 0 ) {                    // new value 
+       s.d = value; 
+       c.d = 1; 
+     } else { 
+       space = s.q;                              // load scratch space 
+       for (i = 0; i < DIGITS; i++) {            // check each digit place 
+         idx = SC-1-i*4; d = s.q[idx-:4];        // offset 4 bits from front 
+         if ( d > 4h4 ) space[idx-:4] = d + 4h3; // add 3 if digit > 5 
+       } 
+       s.d = space << 1;                         // shift scratch space left 
+       c.d = c.q + 1;                            // increment step counter 
+     } 
+   } 
+} 

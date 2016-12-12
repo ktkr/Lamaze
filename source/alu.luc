@@ -1,0 +1,114 @@
+/*
+
+   Does an operation based on alufn on a and b, outputting the result.
+   
+   ---------------------------
+   
+   alufn[5:4]
+   
+     00 = add / subtract / multiply
+     01 = boolean
+     10 = shift
+     11 = compare
+   
+   ---------------------------
+   
+   add / subtract / multiply
+   
+     alufn[1:0]
+     
+       00 = add (a + b)
+       01 = subtract (a - b)
+       10 = multiply (a * b)
+   
+   ---------------------------
+   
+   boolean
+   
+     alufn[3:0]
+   
+       1000 = a and b 
+       0110 = a xor b
+       1110 = a or b 
+       1010 = a
+       0101 = b
+     
+   ---------------------------
+   
+   shift
+   
+     alufn[1:0]
+       
+       00 = shift left
+       01 = shift right
+       11 = shift right w/ sign extension
+   
+   ---------------------------
+   
+   compare
+       
+     alufn[2:0]
+       
+       011 = compare equal to
+       101 = compare less than
+       111 = compare less than or equal to
+
+*/
+
+module alu (
+    input a[8],
+    input b[8],
+    input alufn[6],
+    
+    output result[8]
+  ) {
+  
+  // instantiate all components
+  boolean boole; 
+  adder add;
+  compare compare;
+  shifter shift;
+  multiplier multi;
+  
+  // variable to hold multipler and add result
+  sig output00[8];
+  
+  always {
+    // connect all component inputs
+    boole.a = a;
+    boole.b = b;
+    boole.alufn = alufn[3:0];
+    
+    add.a = a;
+    add.b = b;
+    add.alufn = alufn[0];
+        
+    compare.z = add.z;
+    compare.v = add.v;
+    compare.n = add.n;
+    compare.alufn = alufn[2:1];
+    
+    shift.a = a;
+    shift.b = b[2:0];
+    shift.alufn = alufn[1:0];
+    
+    multi.a = a;
+    multi.b = b;
+    
+    // choose between multiplication and additoin
+    if (alufn[1:0] == 2b10) {
+      output00 = multi.multi;
+    } else {
+      output00 = add.result;
+    }
+
+    // choose result based on alufn
+    case (alufn[5:4]) {
+      2b00: result = output00;
+      2b01: result = boole.boole;
+      2b10: result = shift.result;
+      2b11: result = compare.compareout;
+      default: result = 0;
+    }
+  }
+}

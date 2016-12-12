@@ -1,0 +1,16 @@
+module multiplier (
+    input a[8],
+    input b[8],
+    output multi[8]
+  ) {
+  
+  sig operand[16];
+  
+    always {
+    //Perform multiplication
+      operand[15:0] = a * b;
+    
+    //Return lowest 8 bits
+      multi[7:0] = operand[7:0];
+  }
+}
